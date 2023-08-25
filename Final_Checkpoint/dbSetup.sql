@@ -16,17 +16,23 @@ CREATE TABLE keeps(
   img VARCHAR(255) NOT NULL COMMENT 'Keep image',
   views INTEGER DEFAULT 0 COMMENT 'Keep views',
   creatorId VARCHAR(255) NOT NULL COMMENT 'Account reference id',
-  FOREIGN KEY (creatorId) REFERENCES accounts(id)
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) DEFAULT CHARSET utf8 COMMENT '';
 
 DROP TABLE keeps;
 
 SELECT
   k.*,
+  COUNT(vk.id) AS kept,
   a.*
 FROM
   keeps k
-  JOIN accounts a ON a.id = k.creatorId;
+  JOIN accounts a ON a.id = k.creatorId
+  LEFT JOIN vaultKeeps vk ON k.id = vk.keepId
+WHERE
+  k.id = @keepId
+GROUP BY
+  k.id;
 
 UPDATE
   keeps
@@ -46,7 +52,7 @@ CREATE TABLE vaults(
   img VARCHAR(255) NOT NULL COMMENT 'Vault image',
   isPrivate BOOLEAN DEFAULT false COMMENT 'If vault is private',
   creatorId VARCHAR(255) NOT NULL COMMENT 'Account reference id',
-  FOREIGN KEY (creatorId) REFERENCES accounts(id)
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) DEFAULT CHARSET utf8 COMMENT '';
 
 DROP TABLE vaults;
@@ -77,9 +83,9 @@ CREATE TABLE vaultKeeps(
   creatorId VARCHAR(255) NOT NULL COMMENT 'Account reference id',
   vaultId INTEGER NOT NULL COMMENT 'Vault reference id',
   keepId INTEGER NOT NULL COMMENT 'Keep reference id',
-  FOREIGN KEY (creatorId) REFERENCES accounts(id),
-  FOREIGN KEY (vaultId) REFERENCES vaults(id),
-  FOREIGN KEY (keepId) REFERENCES keeps(id)
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE,
+  FOREIGN KEY (vaultId) REFERENCES vaults(id) ON DELETE CASCADE,
+  FOREIGN KEY (keepId) REFERENCES keeps(id) ON DELETE CASCADE
 ) DEFAULT CHARSET utf8 COMMENT '';
 
 DROP TABLE vaultKeeps;

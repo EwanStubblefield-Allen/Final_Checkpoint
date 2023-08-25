@@ -13,8 +13,9 @@ public class VaultsRepository
   {
     string sql = @"
       SELECT v.*, a.*
-      FROM vaults v
-      JOIN accounts a ON a.id = v.creatorId
+      FROM
+        vaults v
+        JOIN accounts a ON a.id = v.creatorId
       WHERE v.id = @vaultId;";
     return _db.Query<Vault, Profile, Vault>(
       sql,
@@ -24,6 +25,12 @@ public class VaultsRepository
         return vault;
       },
       new { vaultId }).FirstOrDefault();
+  }
+
+  internal List<Vault> GetVaultsByUserId(string userId)
+  {
+    string sql = "SELECT * FROM vaults WHERE creatorId = @userId;";
+    return _db.Query<Vault>(sql, new { userId }).ToList();
   }
 
   internal int CreateVault(Vault vaultData)

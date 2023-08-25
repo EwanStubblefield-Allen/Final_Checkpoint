@@ -5,15 +5,25 @@ namespace Final_Checkpoint.Services;
 public class KeepsService
 {
   private readonly KeepsRepository _keepsRepository;
+  private readonly VaultsService _vaultsService;
 
-  public KeepsService(KeepsRepository keepsRepository)
+  public KeepsService(KeepsRepository keepsRepository, VaultsService vaultsService)
   {
     _keepsRepository = keepsRepository;
+    _vaultsService = vaultsService;
   }
 
   internal List<Keep> GetKeeps()
   {
     return _keepsRepository.GetKeeps();
+  }
+
+  internal Keep GetKeepByIdAndIncrement(int keepId)
+  {
+    Keep keep = GetKeepById(keepId);
+    keep.Views++;
+    _keepsRepository.UpdateKeep(keep);
+    return keep;
   }
 
   internal Keep GetKeepById(int keepId)
@@ -22,9 +32,15 @@ public class KeepsService
     return keep ?? throw new Exception($"[NO KEEP MATCHES THE ID: {keepId}]");
   }
 
-  internal List<KeepVault> GetKeepsByVaultId(int vaultId)
+  internal List<KeepVault> GetKeepsByVaultId(int vaultId, string userId)
   {
+    _vaultsService.GetVaultById(vaultId, userId);
     return _keepsRepository.GetKeepsByVaultId(vaultId);
+  }
+
+  internal List<Keep> GetKeepsByProfileId(string profileId)
+  {
+    return _keepsRepository.GetKeepsByProfileId(profileId);
   }
 
   internal Keep CreateKeep(Keep keepData)

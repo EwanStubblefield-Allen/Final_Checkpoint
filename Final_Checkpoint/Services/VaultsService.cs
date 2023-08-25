@@ -11,16 +11,30 @@ public class VaultsService
     _vaultsRepository = vaultsRepository;
   }
 
-  internal Vault GetVaultById(int vaultId)
+  internal Vault GetVaultById(int vaultId, string userId)
   {
     Vault vault = _vaultsRepository.GetVaultById(vaultId);
-    return vault ?? throw new Exception($"[NO VAULT MATCHES THE ID: {vaultId}]");
+    if (vault == null || (vault.IsPrivate == true && vault.CreatorId != userId))
+    {
+      throw new Exception($"[NO VAULT MATCHES THE ID: {vaultId}]");
+    }
+    return vault;
+  }
+
+  internal List<Vault> GetVaultsByUserId(string profileId, string userId)
+  {
+    List<Vault> vaults = _vaultsRepository.GetVaultsByUserId(profileId);
+    if (profileId != userId)
+    {
+      return vaults.Where(v => v.IsPrivate == false).ToList();
+    }
+    return vaults;
   }
 
   internal Vault CreateVault(Vault vaultData)
   {
     int vaultId = _vaultsRepository.CreateVault(vaultData);
-    return GetVaultById(vaultId);
+    return GetVaultById(vaultId, vaultData.CreatorId);
   }
 
   internal Vault UpdateVault(Vault vaultData)
@@ -43,7 +57,7 @@ public class VaultsService
 
   internal Vault HandleData(int vaultId, string userId)
   {
-    Vault vault = GetVaultById(vaultId);
+    Vault vault = GetVaultById(vaultId, userId);
     if (vault.CreatorId != userId)
     {
       throw new Exception($"[YOU ARE NOT THE CREATOR OF {vault.Name}]");

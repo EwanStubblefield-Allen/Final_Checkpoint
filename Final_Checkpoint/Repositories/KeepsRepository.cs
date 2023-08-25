@@ -12,9 +12,15 @@ public class KeepsRepository
   internal List<Keep> GetKeeps()
   {
     string sql = @"
-      SELECT k.*, a.*
-      FROM keeps k
-      JOIN accounts a ON a.id = k.creatorId;";
+      SELECT
+      k.*,
+      COUNT(vk.id) AS kept,
+      a.*
+      FROM
+        keeps k
+        JOIN accounts a ON a.id = k.creatorId
+        LEFT JOIN vaultKeeps vk ON k.id = vk.keepId
+      GROUP BY k.id;";
     return _db.Query<Keep, Profile, Keep>(
       sql,
       (keep, profile) =>
@@ -27,10 +33,16 @@ public class KeepsRepository
   internal Keep GetKeepById(int keepId)
   {
     string sql = @"
-      SELECT k.*, a.*
-      FROM keeps k
-      JOIN accounts a ON a.id = k.creatorId
-      WHERE k.id = @keepId;";
+      SELECT
+        k.*,
+        COUNT(vk.id) AS kept,
+        a.*
+      FROM
+        keeps k
+        JOIN accounts a ON a.id = k.creatorId
+        LEFT JOIN vaultKeeps vk ON k.id = vk.keepId
+      WHERE k.id = @keepId
+      GROUP BY k.id;";
     return _db.Query<Keep, Profile, Keep>(
       sql,
       (keep, profile) =>
@@ -45,9 +57,10 @@ public class KeepsRepository
   {
     string sql = @"
       SELECT k.*, a.*, vk.*
-      FROM keeps k
-      JOIN accounts a ON a.id = k.creatorId
-      RIGHT JOIN vaultKeeps vk ON vk.keepId = k.id
+      FROM
+        keeps k
+        JOIN accounts a ON a.id = k.creatorId
+        RIGHT JOIN vaultKeeps vk ON vk.keepId = k.id
       WHERE vk.vaultId = @vaultId;";
     return _db.Query<KeepVault, Profile, VaultKeep, KeepVault>(
       sql,
@@ -58,6 +71,13 @@ public class KeepsRepository
         return keep;
       },
       new { vaultId }).ToList();
+  }
+
+  internal List<Keep> GetKeepsByProfileId(string profileId)
+  {
+    string sql = @"
+      SELECT * FROM keeps WHERE creatorId = @profileId;";
+    return _db.Query<Keep>(sql, new { profileId }).ToList();
   }
 
   internal int CreateKeep(Keep keepData)
@@ -75,7 +95,8 @@ public class KeepsRepository
       UPDATE keeps SET
         name = @Name,
         description = @Description,
-        img = @Img
+        img = @Img,
+        views = @Views
       WHERE id = @Id LIMIT 1;";
     _db.Execute(sql, keepData);
   }

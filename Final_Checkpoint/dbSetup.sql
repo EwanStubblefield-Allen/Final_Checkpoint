@@ -15,7 +15,7 @@ CREATE TABLE keeps(
   description VARCHAR(500) NOT NULL COMMENT 'Keep description',
   img VARCHAR(255) NOT NULL COMMENT 'Keep image',
   views INTEGER DEFAULT 0 COMMENT 'Keep views',
-  creatorId VARCHAR(255) NOT NULL COMMENT 'Creator reference id',
+  creatorId VARCHAR(255) NOT NULL COMMENT 'Account reference id',
   FOREIGN KEY (creatorId) REFERENCES accounts(id)
 ) DEFAULT CHARSET utf8 COMMENT '';
 
@@ -45,7 +45,7 @@ CREATE TABLE vaults(
   description VARCHAR(500) NOT NULL COMMENT 'Vault description',
   img VARCHAR(255) NOT NULL COMMENT 'Vault image',
   isPrivate BOOLEAN DEFAULT false COMMENT 'If vault is private',
-  creatorId VARCHAR(255) NOT NULL COMMENT 'Creator reference id',
+  creatorId VARCHAR(255) NOT NULL COMMENT 'Account reference id',
   FOREIGN KEY (creatorId) REFERENCES accounts(id)
 ) DEFAULT CHARSET utf8 COMMENT '';
 
@@ -59,3 +59,36 @@ FROM
   JOIN accounts a ON a.id = v.creatorId
 WHERE
   v.id = @vaultId;
+
+UPDATE
+  vaults
+SET
+  name = @Name,
+  description = @Description,
+  img = @Img,
+  isPrivate = @isPrivate
+LIMIT
+  1;
+
+CREATE TABLE vaultKeeps(
+  id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Primary key',
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  creatorId VARCHAR(255) NOT NULL COMMENT 'Account reference id',
+  vaultId INTEGER NOT NULL COMMENT 'Vault reference id',
+  keepId INTEGER NOT NULL COMMENT 'Keep reference id',
+  FOREIGN KEY (creatorId) REFERENCES accounts(id),
+  FOREIGN KEY (vaultId) REFERENCES vaults(id),
+  FOREIGN KEY (keepId) REFERENCES keeps(id)
+) DEFAULT CHARSET utf8 COMMENT '';
+
+DROP TABLE vaultKeeps;
+
+SELECT
+  k.*,
+  a.*,
+  vk.*
+FROM
+  keeps k
+  JOIN accounts a ON a.id = k.creatorId
+  RIGHT JOIN vaultKeeps vk ON vk.keepId = k.id;

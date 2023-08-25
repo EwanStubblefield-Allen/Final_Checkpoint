@@ -30,7 +30,26 @@ public class VaultsRepository
   {
     string sql = @"
       INSERT INTO vaults(name, description, img, isPrivate, creatorId)
-      VALUE(@Name, @Description, @Img, @IsPrivate, @CreatorId);";
+      VALUE(@Name, @Description, @Img, @IsPrivate, @CreatorId);
+      SELECT LAST_INSERT_ID()";
     return _db.ExecuteScalar<int>(sql, vaultData);
+  }
+
+  internal void UpdateVault(Vault vaultData)
+  {
+    string sql = @"
+      UPDATE vaults SET
+        name = @Name,
+        description = @Description,
+        img = @Img,
+        isPrivate = @isPrivate
+      WHERE id = @Id LIMIT 1;";
+    _db.Execute(sql, vaultData);
+  }
+
+  internal void RemoveVault(int vaultId)
+  {
+    string sql = "DELETE FROM vaults WHERE id = @vaultId LIMIT 1;";
+    _db.Execute(sql, new { vaultId });
   }
 }

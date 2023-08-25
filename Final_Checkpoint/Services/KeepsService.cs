@@ -22,6 +22,11 @@ public class KeepsService
     return keep ?? throw new Exception($"[NO KEEP MATCHES THE ID: {keepId}]");
   }
 
+  internal List<KeepVault> GetKeepsByVaultId(int vaultId)
+  {
+    return _keepsRepository.GetKeepsByVaultId(vaultId);
+  }
+
   internal Keep CreateKeep(Keep keepData)
   {
     int keepId = _keepsRepository.CreateKeep(keepData);

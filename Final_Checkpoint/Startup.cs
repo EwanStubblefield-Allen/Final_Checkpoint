@@ -33,6 +33,12 @@ public class Startup
 
     services.AddScoped<AccountsRepository>();
     services.AddScoped<AccountService>();
+
+    services.AddScoped<KeepsRepository>();
+    services.AddScoped<KeepsService>();
+
+    services.AddScoped<VaultsRepository>();
+    services.AddScoped<VaultsService>();
   }
 
   private void ConfigureCors(IServiceCollection services)
@@ -40,15 +46,15 @@ public class Startup
     services.AddCors(options =>
     {
       options.AddPolicy("CorsDevPolicy", builder =>
-            {
-              builder
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials()
-                .WithOrigins(new string[]{
-                "http://localhost:8080", "http://localhost:8081"
-            });
-            });
+      {
+        builder
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+        .WithOrigins(new string[]{
+          "http://localhost:8080", "http://localhost:8081"
+        });
+      });
     });
   }
 
@@ -63,7 +69,6 @@ public class Startup
       options.Authority = $"https://{Configuration["AUTH0_DOMAIN"]}/";
       options.Audience = Configuration["AUTH0_AUDIENCE"];
     });
-
   }
 
   private IDbConnection CreateDbConnection()
@@ -71,7 +76,6 @@ public class Startup
     string connectionString = Configuration["CONNECTION_STRING"];
     return new MySqlConnection(connectionString);
   }
-
 
   // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
   public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -87,6 +91,7 @@ public class Startup
     app.UseHttpsRedirection();
 
     app.UseDefaultFiles();
+
     app.UseStaticFiles();
 
     app.UseRouting();
@@ -95,11 +100,9 @@ public class Startup
 
     app.UseAuthorization();
 
-
     app.UseEndpoints(endpoints =>
     {
       endpoints.MapControllers();
     });
   }
 }
-

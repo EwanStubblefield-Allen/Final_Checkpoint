@@ -24,10 +24,10 @@ public class AccountsRepository
   internal Account Create(Account newAccount)
   {
     string sql = @"
-            INSERT INTO accounts
-              (name, picture, email, id)
-            VALUES
-              (@Name, @Picture, @Email, @Id)";
+      INSERT INTO accounts
+        (name, picture, email, id)
+      VALUES
+        (@Name, @Picture, @Email, @Id)";
     _db.Execute(sql, newAccount);
     return newAccount;
   }
@@ -35,13 +35,12 @@ public class AccountsRepository
   internal Account Edit(Account update)
   {
     string sql = @"
-            UPDATE accounts
-            SET 
-              name = @Name,
-              picture = @Picture
-            WHERE id = @Id;";
+      UPDATE accounts
+      SET 
+        name = @Name,
+        picture = @Picture
+      WHERE id = @Id;";
     _db.Execute(sql, update);
     return update;
   }
 }
-

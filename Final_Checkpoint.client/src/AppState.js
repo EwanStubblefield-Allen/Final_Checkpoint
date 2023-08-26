@@ -4,5 +4,11 @@ import { reactive } from 'vue'
 export const AppState = reactive({
   user: {},
   /** @type {import('./models/Account.js').Account} */
-  account: {}
+  account: {},
+  /** @type {import('./models/Profile.js').Profile} */
+  profile: {},
+  /** @type {import('./models/Keep.js').Keep[]} */
+  keeps: [],
+  /** @type {import('./models/Vault.js').Vault[]} */
+  vaults: []
 })

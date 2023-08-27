@@ -4,6 +4,7 @@ import { RepoItem } from "./RepoItem.js"
 export class Keep extends RepoItem {
   constructor(data) {
     super(data)
+    this.vaultKeepId = data.vaultKeepId || ''
     this.name = data.name
     this.description = data.description
     this.img = data.img

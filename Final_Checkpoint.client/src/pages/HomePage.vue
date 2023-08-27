@@ -20,6 +20,7 @@ export default {
     onMounted(() => {
       getKeeps()
     })
+
     onUnmounted(() => {
       AppState.keeps = []
     })

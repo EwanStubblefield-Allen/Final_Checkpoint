@@ -14,13 +14,10 @@ public class KeepsRepository
     string sql = @"
       SELECT
       k.*,
-      COUNT(vk.id) AS kept,
       a.*
       FROM
         keeps k
-        JOIN accounts a ON a.id = k.creatorId
-        LEFT JOIN vaultKeeps vk ON k.id = vk.keepId
-      GROUP BY k.id;";
+        JOIN accounts a ON a.id = k.creatorId;";
     return _db.Query<Keep, Profile, Keep>(
       sql,
       (keep, profile) =>

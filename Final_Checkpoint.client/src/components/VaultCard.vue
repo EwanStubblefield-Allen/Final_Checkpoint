@@ -1,10 +1,10 @@
 <template>
-  <div class="d-flex flex-column justify-content-end bg-img rounded elevation-4 p-2">
-    <div class="d-flex justify-content-between align-items-center">
-      <p class="card-name fs-4">{{ vaultProp.name }}</p>
-      <i v-if="vaultProp.isPrivate" class="mdi mdi-lock-outline rounded-circle bg-light fs-5 px-1"></i>
+  <router-link :to="{ name: 'Vault', params: { vaultId: vaultProp.id } }" class="d-flex flex-column justify-content-end bg-img rounded elevation-4 p-2">
+    <div class="d-flex justify-content-between align-items-end">
+      <p :class="{ 'w-75': vaultProp.isPrivate }" class="card-name fs-4">{{ vaultProp.name }}</p>
+      <i v-if="vaultProp.isPrivate" class="mdi mdi-lock-outline d-flex justify-content-center align-items-center bg-light fs-5"></i>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -32,6 +32,12 @@ export default {
     background-image: v-bind(backgroundImage);
     background-position: center;
     background-size: cover;
-    height: 20vh;
+    height: 25vh;
+  }
+
+  .bg-light {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
   }
 </style>

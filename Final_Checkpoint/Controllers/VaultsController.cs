@@ -21,7 +21,7 @@ public class VaultsController : ControllerBase
     try
     {
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-      Vault vault = _vaultsService.GetVaultById(vaultId, userInfo.Id);
+      Vault vault = _vaultsService.GetVaultById(vaultId, userInfo?.Id);
       return Ok(vault);
     }
     catch (Exception e)
@@ -36,7 +36,7 @@ public class VaultsController : ControllerBase
     try
     {
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-      List<KeepVault> keeps = _keepsService.GetKeepsByVaultId(vaultId, userInfo.Id);
+      List<KeepVault> keeps = _keepsService.GetKeepsByVaultId(vaultId, userInfo?.Id);
       return Ok(keeps);
     }
     catch (Exception e)

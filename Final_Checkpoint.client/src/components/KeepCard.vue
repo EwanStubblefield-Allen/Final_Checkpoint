@@ -1,8 +1,8 @@
 <template>
-  <div class="d-flex align-items-end bg-img rounded elevation-4 h-100 p-3">
-    <div class="d-flex justify-content-between align-items-center w-100">
+  <div @click="getKeepById()" class="d-flex align-items-end bg-img selectable rounded elevation-4 h-100 p-3">
+    <div class="d-flex justify-content-between align-items-center">
       <p class="card-name fs-4">{{ keepProp.name }}</p>
-      <router-link :to="{ name: 'Profile', params: { profileId: keepProp.creator.id } }" v-if="!profile.id">
+      <router-link :to="{ name: 'Profile', params: { profileId: keepProp.creator.id } }" v-if="!profile.id" @click.stop="">
         <img class="profile-pic" :src="keepProp.creator.picture" :alt="keepProp.creator.name" :title="keepProp.creator.name">
       </router-link>
     </div>
@@ -13,6 +13,9 @@
 import { computed, onUnmounted } from 'vue'
 import { Keep } from '../models/Keep.js'
 import { AppState } from '../AppState.js'
+import { keepsService } from '../services/KeepsService.js'
+import { Modal } from 'bootstrap'
+import Pop from '../utils/Pop.js'
 
 export default {
   props: {
@@ -31,7 +34,16 @@ export default {
 
     return {
       profile: computed(() => AppState.profile),
-      backgroundImg: computed(() => `url("${props.keepProp.img}")`)
+      backgroundImg: computed(() => `url("${props.keepProp.img}")`),
+
+      getKeepById() {
+        try {
+          keepsService.getKeepById(props.keepProp)
+          Modal.getOrCreateInstance('#detailsModal').show()
+        } catch (error) {
+          Pop.error(error.message, '[GETTING KEEP BY ID]')
+        }
+      }
     }
   }
 }

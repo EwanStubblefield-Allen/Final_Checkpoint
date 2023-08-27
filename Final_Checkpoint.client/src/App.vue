@@ -1,5 +1,5 @@
 <template>
-  <header class="container-fluid order-2 order-md-1">
+  <header class="container-fluid order-2 order-md-1 z-1">
     <Navbar />
   </header>
   <main class="container-fluid order-1 order-md-2">
@@ -7,12 +7,21 @@
       <router-view />
     </section>
   </main>
+
+  <DetailsModal />
+
+  <KeepForm />
+
+  <VaultForm />
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
+import DetailsModal from './components/DetailsModal.vue'
+import KeepForm from './components/KeepForm.vue'
+import VaultForm from './components/VaultForm.vue'
 
 export default {
   setup() {
@@ -20,7 +29,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar }
+  components: { Navbar, KeepForm, VaultForm, DetailsModal }
 }
 </script>
 <style lang="scss">
@@ -32,7 +41,7 @@ export default {
 
   body {
     background: #FEF6F0;
-    font-family: 'Oxygen', sans-serif;
+    font-family: 'Marko One', serif;
   }
 
   header {
@@ -44,6 +53,13 @@ export default {
     margin: 0;
   }
 
+  .underline {
+    background-color: transparent;
+    border: none !important;
+    border-bottom: 1px solid gray !important;
+    border-radius: 10px 10px 0 0;
+  }
+
   .masonry {
     columns: 4 150px;
     column-gap: 1rem;
@@ -53,10 +69,9 @@ export default {
       width: 100%;
     }
 
-    @for $i from 1 through 36 {
+    @for $i from 1 through 300 {
       .masonry-item:nth-child(#{$i}) {
-        $h: (random(200) + 150)+px;
-        height: $h;
+        height: (random(225) + 150)+px;
       }
     }
   }

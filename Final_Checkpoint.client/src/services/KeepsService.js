@@ -23,7 +23,7 @@ class KeepsService {
   async createKeep(keepData) {
     const res = await api.post('api/keeps', keepData)
 
-    if (!AppState.profile.id || AppState.profile.id == AppState.account.id) {
+    if ((!AppState.profile.id || AppState.profile.id == AppState.account.id) && !AppState.activeVault) {
       AppState.keeps.push(new Keep(res.data))
     }
   }

@@ -63,6 +63,7 @@ export default {
       try {
         await keepsService.createKeep(editable.value)
         Pop.success(`${editable.value.name} was created!`)
+        editable.value = {}
       } catch (error) {
         Pop.error(error.message, '[CREATING KEEP]')
       }
@@ -72,6 +73,7 @@ export default {
       try {
         await keepsService.updateKeep(editable.value)
         Pop.success(`${editable.value.name} was updated!`)
+        editable.value = {}
       } catch (error) {
         Pop.error(error.message, '[UPDATING KEEP]')
       }

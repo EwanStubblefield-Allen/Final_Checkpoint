@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS accounts(
   name VARCHAR(255) COMMENT 'User Name',
   email VARCHAR(255) COMMENT 'User Email',
   picture VARCHAR(255) COMMENT 'User Picture',
-  coverImg VARCHAR(255) DEFAULT 'https: / / images.unsplash.com / photo -1532274402911 - 5a369e4c4bb5 ? ixlib = rb -4.0.3 & ixid = M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bGFuZHNjYXBlfGVufDB8fDB8fHww & auto = format & fit = crop & w = 700 & q = 60'
+  coverImg VARCHAR(255) DEFAULT 'https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bGFuZHNjYXBlfGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60'
 ) DEFAULT CHARSET utf8 COMMENT '';
 
 CREATE TABLE keeps(

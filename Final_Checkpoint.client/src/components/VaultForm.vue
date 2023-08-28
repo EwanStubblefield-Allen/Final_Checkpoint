@@ -71,6 +71,7 @@ export default {
         const vaultId = await vaultsService.createVault(editable.value)
         router.push({ name: 'Vault', params: { vaultId: vaultId } })
         Pop.success(`${editable.value.name} was created!`)
+        editable.value = {}
       } catch (error) {
         Pop.error(error.message, '[CREATING VAULT]')
       }
@@ -80,6 +81,7 @@ export default {
       try {
         await vaultsService.updateVault(editable.value)
         Pop.success(`${editable.value.name} was updated!`)
+        editable.value = {}
       } catch (error) {
         Pop.error(error.message, '[UPDATING VAULT]')
       }

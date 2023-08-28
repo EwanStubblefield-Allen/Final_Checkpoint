@@ -7,7 +7,7 @@
   <div v-if="profile.id" class="col-12">
     <div class="d-flex justify-content-center align-items-center">
       <p class="text-truncate max-vw-100 fs-1 fw-bold mt-5">{{ profile.name }}</p>
-      <i class="mdi mdi-pencil mt-5 ms-3 fs-5 selectable" title="Edit Profile" data-bs-toggle="modal" data-bs-target="#accountForm"></i>
+      <i v-if="profile.id == account.id" class="mdi mdi-pencil mt-5 ms-3 fs-5 selectable" title="Edit Profile" data-bs-toggle="modal" data-bs-target="#accountForm"></i>
     </div>
 
     <div class="d-flex justify-content-center">
@@ -27,7 +27,7 @@
       </section>
     </div>
 
-    <div v-if="keeps.length" class="my-2">
+    <div class="my-2">
       <p class="fs-2 fw-bold">Keeps</p>
       <div class="masonry my-2">
         <div v-for="k in keeps" :key="k.id" class="masonry-item my-2">
@@ -94,6 +94,7 @@ export default {
     }
 
     return {
+      account: computed(() => AppState.account),
       profile: computed(() => AppState.profile),
       vaults: computed(() => AppState.vaults),
       keeps: computed(() => AppState.keeps)

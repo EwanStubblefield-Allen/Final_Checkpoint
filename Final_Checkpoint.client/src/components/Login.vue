@@ -3,7 +3,7 @@
     Login
   </button>
   <div v-else>
-    <div class="dropdown">
+    <div :class="{ dropdown: width >= 768, dropup: width < 768 }">
       <div type="button" role="button" class="border-0 selectable no-select rounded-circle elevation-4" data-bs-toggle="dropdown" aria-expanded="false">
         <div v-if="account.picture || user.picture">
           <img :src="account.picture || user.picture" alt="account photo" style="height: 40px; width: 40px;" class="rounded-circle" />
@@ -11,11 +11,11 @@
       </div>
       <div class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="authDropdown">
         <div v-if="account.id" class="list-group">
-          <router-link :to="{ name: 'Account' }">
+          <!-- <router-link :to="{ name: 'Account' }">
             <div class="list-group-item dropdown-item list-group-item-action">
               Manage Account
             </div>
-          </router-link>
+          </router-link> -->
           <router-link :to="{ name: 'Profile', params: { profileId: account.id } }">
             <div class="list-group-item dropdown-item list-group-item-action">
               My Page
@@ -41,6 +41,7 @@ export default {
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
+      width: computed(() => AppState.width),
 
       async login() {
         AuthService.loginWithPopup()

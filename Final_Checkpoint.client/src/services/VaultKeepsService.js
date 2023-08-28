@@ -1,6 +1,5 @@
 import { AppState } from "../AppState.js"
 import { Keep } from "../models/Keep.js"
-import { logger } from "../utils/Logger.js"
 import { api } from "./AxiosService.js"
 
 class VaultKeepsService {
@@ -15,11 +14,8 @@ class VaultKeepsService {
   }
 
   async removeVaultKeep(vaultKeepId) {
-    // FIXME auto update not working
-    // AppState.keeps.forEach(k => logger.log(k.vaultKeepId))
-    // await api.delete(`api/vaultKeeps/${vaultKeepId}`)
-    // AppState.keeps = AppState.keeps.filter(k => k.vaultKeepId == vaultKeepId)
-    // logger.log(AppState.keeps)
+    await api.delete(`api/vaultKeeps/${vaultKeepId}`)
+    AppState.keeps = AppState.keeps.filter(k => k.vaultKeepId != vaultKeepId)
   }
 }
 

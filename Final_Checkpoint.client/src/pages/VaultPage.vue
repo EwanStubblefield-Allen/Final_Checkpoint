@@ -62,6 +62,7 @@ export default {
 
     onUnmounted(() => {
       AppState.activeVault = null
+      AppState.keeps = []
     })
 
     async function getVaultById(vaultId) {
@@ -99,6 +100,7 @@ export default {
           }
           await vaultsService.removeVault(this.vault.id)
           router.push('/')
+          Pop.toast('Vault was deleted!')
         } catch (error) {
           Pop.error(error.message, '[DELETING Vault]')
         }

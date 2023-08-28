@@ -4,8 +4,12 @@
     <img class="account-pic elevation-4" :src="profile.picture" :alt="profile.name">
   </div>
 
-  <div v-if="profile.id" class="col-12 text-center">
-    <p class="text-truncate max-vw-100 fs-1 fw-bold mt-5">{{ profile.name }}</p>
+  <div v-if="profile.id" class="col-12">
+    <div class="d-flex justify-content-center align-items-center">
+      <p class="text-truncate max-vw-100 fs-1 fw-bold mt-5">{{ profile.name }}</p>
+      <i class="mdi mdi-pencil mt-5 ms-3 fs-5 selectable" title="Edit Profile" data-bs-toggle="modal" data-bs-target="#accountForm"></i>
+    </div>
+
     <div class="d-flex justify-content-center">
       <p>{{ vaults.length }} Vaults</p>
       <div class="vr mx-2 opacity-100"></div>
@@ -27,15 +31,7 @@
       <p class="fs-2 fw-bold">Keeps</p>
       <div class="masonry my-2">
         <div v-for="k in keeps" :key="k.id" class="masonry-item my-2">
-          <!-- FIXME Turn back into component -->
-          <div @click="getKeepById()" class="d-flex align-items-end bg-img selectable rounded elevation-4 h-100 p-3">
-            <div class="d-flex justify-content-between align-items-center">
-              <p class="card-name fs-4">{{ k.name }}</p>
-              <router-link :to="{ name: 'Profile', params: { profileId: k.creator.id } }" v-if="!profile.id" @click.stop="">
-                <img class="profile-pic" :src="k.creator.picture" :alt="k.creator.name" :title="k.creator.name">
-              </router-link>
-            </div>
-          </div>
+          <KeepCard :keepProp="k" />
         </div>
       </div>
     </div>
@@ -66,6 +62,8 @@ export default {
 
     onUnmounted(() => {
       AppState.profile = {}
+      AppState.vaults = []
+      AppState.keeps = []
     })
 
     async function getProfile(profileId) {

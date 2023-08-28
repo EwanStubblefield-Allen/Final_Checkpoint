@@ -6,7 +6,8 @@
           <div class="text-end">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <p class="fs-2 pb-3">Add your keep</p>
+          <p v-if="!editable.id" class="fs-2 pb-3">Add your keep</p>
+          <p v-else class="fs-2 pb-3">Edit your keep</p>
 
           <form @submit.prevent="handleSubmit()">
             <div class="pb-5">
@@ -61,6 +62,7 @@ export default {
     async function createKeep() {
       try {
         await keepsService.createKeep(editable.value)
+        Pop.success(`${editable.value.name} was created!`)
       } catch (error) {
         Pop.error(error.message, '[CREATING KEEP]')
       }
@@ -69,6 +71,7 @@ export default {
     async function updateKeep() {
       try {
         await keepsService.updateKeep(editable.value)
+        Pop.success(`${editable.value.name} was updated!`)
       } catch (error) {
         Pop.error(error.message, '[UPDATING KEEP]')
       }

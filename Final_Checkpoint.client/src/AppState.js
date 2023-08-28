@@ -18,5 +18,6 @@ export const AppState = reactive({
   /** @type {import('./models/Vault.js').Vault | null} */
   activeVault: null,
   keepEdit: false,
-  vaultEdit: false
+  vaultEdit: false,
+  width: window.innerWidth
 })

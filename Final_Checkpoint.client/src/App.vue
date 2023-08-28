@@ -13,6 +13,8 @@
   <KeepForm />
 
   <VaultForm />
+
+  <AccountForm />
 </template>
 
 <script>
@@ -22,6 +24,7 @@ import Navbar from './components/Navbar.vue'
 import DetailsModal from './components/DetailsModal.vue'
 import KeepForm from './components/KeepForm.vue'
 import VaultForm from './components/VaultForm.vue'
+import AccountForm from './components/AccountForm.vue'
 
 export default {
   setup() {
@@ -29,7 +32,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar, KeepForm, VaultForm, DetailsModal }
+  components: { Navbar, KeepForm, VaultForm, DetailsModal, AccountForm }
 }
 </script>
 <style lang="scss">
@@ -65,7 +68,7 @@ export default {
     column-gap: 1rem;
 
     div {
-      display: inline-block;
+      display: inline-flex;
       width: 100%;
     }
 

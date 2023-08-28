@@ -33,6 +33,11 @@ class KeepsService {
     const foundIndex = AppState.keeps.findIndex(k => k.id == res.data.id)
     AppState.keeps.splice(foundIndex, 1, new Keep(res.data))
   }
+
+  async removeKeep(keepId) {
+    await api.delete(`api/keeps/${keepId}`)
+    AppState.keeps = AppState.keeps.filter(k => k.id != keepId)
+  }
 }
 
 export const keepsService = new KeepsService()

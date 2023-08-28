@@ -27,14 +27,14 @@
             </div>
 
             <div class="d-flex justify-content-between">
-              <div @click="removeVaultKeep()" v-if="keep.vaultKeepId && keep.creatorId == account.id" class="d-flex align-items-center underline text-secondary selectable">
+              <div @click="removeVaultKeep()" v-if="keep.vaultKeepId && activeVault?.creatorId == account.id" class="d-flex align-items-center underline text-secondary selectable">
                 <i class="mdi mdi-cancel pe-2"></i>
                 <p>Remove</p>
               </div>
 
               <form @submit.prevent="createVaultKeep()" v-else-if="account.id" class="d-flex align-items-center">
                 <select v-model="editable.vaultId" class="form-select" aria-label="Select vault" required>
-                  <option selected>Vault</option>
+                  <option class="text-secondary" selected>Vault</option>
                   <option v-for="v in vaults" :key="v.id" :value="v.id">{{ v.name }}</option>
                 </select>
                 <button class="d-none d-md-block btn btn-dark text-light mx-3" type="submit">Save</button>
@@ -73,6 +73,7 @@ export default {
       account: computed(() => AppState.account),
       keep: computed(() => AppState.activeKeep),
       vaults: computed(() => AppState.myVaults),
+      activeVault: computed(() => AppState.activeVault),
 
       keepEdit() {
         AppState.keepEdit = true
@@ -95,7 +96,7 @@ export default {
 
       async removeVaultKeep() {
         try {
-          const isSure = await Pop.confirm(`Are you sure you want to delete ${this.keep.name}?`)
+          const isSure = await Pop.confirm(`Are you sure you want to remove ${this.keep.name} from this vault?`)
 
           if (!isSure) {
             return

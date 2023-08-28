@@ -24,6 +24,9 @@ class VaultsService {
   }
 
   async createVault(vaultData) {
+    if (!vaultData.isPrivate) {
+      vaultData.isPrivate = false
+    }
     const res = await api.post('api/vaults', vaultData)
     const vault = new Vault(res.data)
 
@@ -44,7 +47,7 @@ class VaultsService {
 
   async removeVault(vaultId) {
     await api.delete(`api/vaults/${vaultId}`)
-    AppState.vaults, AppState.myVaults = AppState.vaults.filter(v => v.id != vaultId)
+    AppState.myVaults = AppState.myVaults.filter(v => v.id != vaultId)
   }
 }
 

@@ -51,7 +51,7 @@ CREATE TABLE vaults(
   name VARCHAR(255) NOT NULL COMMENT 'Vault name',
   description VARCHAR(500) NOT NULL COMMENT 'Vault description',
   img VARCHAR(255) NOT NULL COMMENT 'Vault image',
-  isPrivate BOOLEAN DEFAULT false COMMENT 'If vault is private',
+  isPrivate BOOLEAN DEFAULT FALSE COMMENT 'If vault is private',
   creatorId VARCHAR(255) NOT NULL COMMENT 'Account reference id',
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) DEFAULT CHARSET utf8 COMMENT '';

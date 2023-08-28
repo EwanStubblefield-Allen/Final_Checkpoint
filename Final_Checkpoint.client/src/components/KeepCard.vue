@@ -7,7 +7,7 @@
       </router-link>
     </div>
 
-    <i v-if="keepProp.creatorId == account.id" @click.stop="removeKeep()" class="mdi mdi-close d-flex justify-content-center align-items-center"></i>
+    <i v-if="keepProp.creatorId == account.id" @click.stop="removeKeep()" class="mdi mdi-close d-flex justify-content-center align-items-center" title="Delete Keep"></i>
   </div>
 </template>
 

@@ -72,7 +72,7 @@ export default {
       width: 100%;
     }
 
-    @for $i from 1 through 300 {
+    @for $i from 1 through 50 {
       .masonry-item:nth-child(#{$i}) {
         height: (random(225) + 150)+px;
       }

@@ -34,10 +34,10 @@
 
               <form @submit.prevent="createVaultKeep()" v-else-if="account.id" class="d-flex align-items-center">
                 <select v-model="editable.vaultId" class="form-select" aria-label="Select vault" required>
-                  <option class="text-secondary" selected>Vault</option>
+                  <option disabled selected>Vault</option>
                   <option v-for="v in vaults" :key="v.id" :value="v.id">{{ v.name }}</option>
                 </select>
-                <button class="d-none d-md-block btn btn-dark text-light mx-3" type="submit">Save</button>
+                <button class="d-none d-md-block btn btn-dark text-light mx-3" type="submit" :disabled="editable.vaultId == 'Vault'">Save</button>
               </form>
               <div v-else></div>
 
@@ -81,9 +81,6 @@ export default {
 
       async createVaultKeep() {
         try {
-          if (editable.value.vaultId == 'Vault') {
-            return
-          }
           await vaultKeepsService.createVaultKeep(editable.value)
           Modal.getOrCreateInstance('#detailsModal').hide()
           router.push({ name: 'Vault', params: { vaultId: editable.value.vaultId } })
@@ -140,6 +137,5 @@ export default {
 
   .truncate {
     max-width: 50vw;
-    pointer-events: all;
   }
 </style>

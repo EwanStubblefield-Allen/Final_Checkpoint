@@ -24,6 +24,7 @@ jobs:
           DOCKER_IMAGE_TAG: latest
         run: |
           docker buildx create --use
+          echo done
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker buildx build --platform linux/amd64 -t $DOCKER_USERNAME/keepr:$DOCKER_IMAGE_TAG --push .
 

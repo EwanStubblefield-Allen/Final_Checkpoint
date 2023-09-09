@@ -27,7 +27,7 @@ jobs:
           echo it made it this far
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           echo it made it that far
-          docker buildx build --platform linux/amd64 -t ewanstubblefieldallen/keepr:latest --push .
+          docker buildx build --platform linux/amd64 -tag ewanstubblefieldallen/keepr:latest --push .
           echo it made it very far
 
       - name: SSH Deploy 📔

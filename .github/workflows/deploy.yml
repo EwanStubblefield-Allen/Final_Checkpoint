@@ -24,6 +24,7 @@ jobs:
           DOCKER_IMAGE_TAG: latest
         run: |
           docker buildx create --use
+          echo done
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker buildx build --platform linux/amd64 -t $DOCKER_USERNAME/keepr:$DOCKER_IMAGE_TAG --push .
 
@@ -38,5 +39,5 @@ jobs:
           chmod 600 ~/.ssh/id_rsa.pem
 
           # Replace "path/to/your/docker-compose.yml" with your actual Docker Compose file path
-          scp -i ~/.ssh/id_rsa.pem -r path/to/your/docker-compose.yml $EC2_USERNAME@$EC2_IP_ADDRESS:/path/to/destination
-          ssh -i ~/.ssh/id_rsa.pem $EC2_USERNAME@$EC2_IP_ADDRESS "docker-compose -f /path/to/destination/docker-compose.yml up -d"
+          scp -i ~/.ssh/id_rsa.pem -r /Final_Checkpoint/docker-compose.yml $EC2_USERNAME@$EC2_IP_ADDRESS:/Final_Checkpoint
+          ssh -i ~/.ssh/id_rsa.pem $EC2_USERNAME@$EC2_IP_ADDRESS "docker-compose -f /Final_Checkpoint/docker-compose.yml up -d"

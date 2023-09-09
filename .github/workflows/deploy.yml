@@ -37,11 +37,10 @@ jobs:
           mkdir -p ~/.ssh
           echo it made it this far
           echo "$EC2_PEM_KEY" > ~/.ssh/id_rsa.pem
-          rm ~/.ssh/known_hosts
           chmod 600 ~/.ssh/id_rsa.pem
           echo it made it that far
 
           # Replace "path/to/your/docker-compose.yml" with your actual Docker Compose file path
-          scp -i ~/.ssh/id_rsa.pem -r ./Final_Checkpoint/docker-compose.yml $EC2_USERNAME@$EC2_IP_ADDRESS:~/Final_Checkpoint
+          scp -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no -r ./Final_Checkpoint/docker-compose.yml $EC2_USERNAME@$EC2_IP_ADDRESS:~/Final_Checkpoint
           echo it made it very far
           ssh -i ~/.ssh/id_rsa.pem $EC2_USERNAME@$EC2_IP_ADDRESS "docker-compose -f ~/Final_Checkpoint/docker-compose.yml up -d"

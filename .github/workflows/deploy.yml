@@ -24,9 +24,11 @@ jobs:
           DOCKER_IMAGE_TAG: latest
         run: |
           docker buildx create --use
-          echo done
+          echo it made it this far
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          echo it made it that far
           docker buildx build --platform linux/amd64 -t $DOCKER_USERNAME/keepr:$DOCKER_IMAGE_TAG --push .
+          echo it made it very far
 
       - name: SSH Deploy 📔
         env:

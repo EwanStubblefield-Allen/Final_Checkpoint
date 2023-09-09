@@ -23,7 +23,7 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Expose the port your application listens on
-EXPOSE 80
+EXPOSE 81
 
 # Set the entry point for the container
 ENTRYPOINT ["dotnet", "Final_Checkpoint.dll"]

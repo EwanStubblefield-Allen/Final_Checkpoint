@@ -1,29 +1,16 @@
-# Use the .NET Core SDK image as the base image
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
-
-# Set the working directory inside the container
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
 
-# Copy the dotnet project files to the container
-COPY . ./
-
-# Restore the .NET dependencies
+# Copy everything
+COPY *.csproj ./
+# Restore as distinct layers
 RUN dotnet restore
-
-# Build the application
+# Build and publish a release
+COPY . ./
 RUN dotnet publish -c Release -o out
 
-# Create a new image using a lighter .NET Runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:5.0
-
-# Set the working directory inside the container
+# Start runtime image
+FROM mcr.microsoft.com/dotnet/sdk:6.0
 WORKDIR /app
-
-# Copy the published output from the build-env to the new container
 COPY --from=build-env /app/out .
-
-# Expose the port your application listens on
-EXPOSE 80
-
-# Set the entry point for the container
-ENTRYPOINT ["dotnet", "Final_Checkpoint.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Final_Checkpoint.dll

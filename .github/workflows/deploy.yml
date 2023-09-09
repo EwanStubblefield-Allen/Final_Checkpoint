@@ -24,12 +24,9 @@ jobs:
           DOCKER_IMAGE_TAG: latest
         run: |
           docker buildx create --use
-          echo it made it this far
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          echo it made it that far
           cd ./Final_Checkpoint
           docker buildx build --platform linux/amd64 -t $DOCKER_USERNAME/keepr:$DOCKER_IMAGE_TAG --push .
-          echo it made it very far
 
       - name: SSH Deploy 📔
         env:
@@ -38,9 +35,12 @@ jobs:
           EC2_PEM_KEY: ${{ secrets.EC2_PEM_KEY }}
         run: |
           mkdir -p ~/.ssh
+          echo it made it this far
           echo "$EC2_PEM_KEY" > ~/.ssh/id_rsa.pem
           chmod 600 ~/.ssh/id_rsa.pem
+          echo it made it that far
 
           # Replace "path/to/your/docker-compose.yml" with your actual Docker Compose file path
           scp -i ~/.ssh/id_rsa.pem -r ./Final_Checkpoint/docker-compose.yml $EC2_USERNAME@$EC2_IP_ADDRESS:./Final_Checkpoint
+          echo it made it very far
           ssh -i ~/.ssh/id_rsa.pem $EC2_USERNAME@$EC2_IP_ADDRESS "docker-compose -f ./Final_Checkpoint/docker-compose.yml up -d"

@@ -37,6 +37,7 @@ jobs:
           mkdir -p ~/.ssh
           echo it made it this far
           echo "$EC2_PEM_KEY" > ~/.ssh/id_rsa.pem
+          rm ~/.ssh/known_hosts
           chmod 600 ~/.ssh/id_rsa.pem
           echo it made it that far
 

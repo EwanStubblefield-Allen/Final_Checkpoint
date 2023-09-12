@@ -3,4 +3,4 @@ services:
   web:
     image: ewanstubblefieldallen/keepr:latest
     ports:
-      - "8081:80"
+      - "7045:80"

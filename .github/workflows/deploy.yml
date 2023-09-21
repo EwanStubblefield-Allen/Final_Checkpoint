@@ -42,7 +42,7 @@ jobs:
         run: |
           docker buildx create --use
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker buildx build --file ./$ROOT --platform linux/amd64 -t $DOCKER_USERNAME/keepr:$DOCKER_IMAGE_TAG --push .
+          docker buildx build --file ./$ROOT/Dockerfile --platform linux/amd64 -t $DOCKER_USERNAME/keepr:$DOCKER_IMAGE_TAG --push .
 
       - name: SSH Deploy 📔
         run: |

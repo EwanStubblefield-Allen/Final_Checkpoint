@@ -4,3 +4,4 @@ services:
     image: ewanstubblefieldallen/keepr:latest
     ports:
       - "7045:80"
+    restart: unless-stopped
